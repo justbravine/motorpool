@@ -1,0 +1,17 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="paint0" x1="80" y1="90" x2="600" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="32" fill="#F7F2EA"/>
+  <path d="M110 220C140 170 230 140 320 140C410 140 500 170 530 220" stroke="url(#paint0)" stroke-width="16" stroke-linecap="round"/>
+  <rect x="140" y="210" width="360" height="62" rx="26" fill="#FFFFFF" stroke="#0F172A" stroke-width="10"/>
+  <path d="M195 195C212 165 268 155 320 155C372 155 428 165 445 195" stroke="#0F172A" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="210" cy="292" r="32" fill="#0F172A"/>
+  <circle cx="210" cy="292" r="17" fill="#F59E0B"/>
+  <circle cx="430" cy="292" r="32" fill="#0F172A"/>
+  <circle cx="430" cy="292" r="17" fill="#0F766E"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#F59E0B">GK SUV</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="paint0" x1="60" y1="80" x2="620" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E293B"/>
+      <stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="32" fill="#F7F2EA"/>
+  <path d="M120 220C150 180 230 160 320 160C410 160 490 180 520 220" stroke="url(#paint0)" stroke-width="16" stroke-linecap="round"/>
+  <rect x="150" y="210" width="340" height="58" rx="24" fill="#FFFFFF" stroke="#1E293B" stroke-width="10"/>
+  <path d="M200 200C215 175 265 165 320 165C375 165 425 175 440 200" stroke="#1E293B" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="220" cy="285" r="30" fill="#1E293B"/>
+  <circle cx="220" cy="285" r="16" fill="#F59E0B"/>
+  <circle cx="420" cy="285" r="30" fill="#1E293B"/>
+  <circle cx="420" cy="285" r="16" fill="#0F766E"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#0F766E">GK Sedan</text>
+</svg>
