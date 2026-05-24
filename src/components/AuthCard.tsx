@@ -4,19 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import ThemeToggle from "@/components/ThemeToggle";
 import FleetLogo from "@/components/FleetLogo";
 
 type AuthCardProps = {
   showClose?: boolean;
   onClose?: () => void;
-  showThemeToggle?: boolean;
 };
 
 export default function AuthCard({
   showClose = false,
   onClose,
-  showThemeToggle = true,
 }: AuthCardProps) {
   const router = useRouter();
   const [supabase] = useState(() => createClient());
@@ -45,7 +42,7 @@ export default function AuthCard({
       return;
     }
 
-    router.push("/app");
+    router.push("/home");
   };
 
   const handleSignup = async (event: React.FormEvent) => {
@@ -80,13 +77,12 @@ export default function AuthCard({
     }
 
     setLoading(false);
-    router.push("/app");
+    router.push("/home");
   };
 
   return (
     <div className="w-full max-w-md rounded-3xl border border-[color:var(--panel-edge)] bg-[color:var(--panel)] p-8 shadow-lg relative">
       <div className="absolute right-5 top-5 flex items-center gap-2">
-        {showThemeToggle && <ThemeToggle />}
         {showClose && (
           <button
             type="button"

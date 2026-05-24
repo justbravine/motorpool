@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
 import { Truck, Users, ShieldCheck } from "lucide-react";
-import ThemeToggle from "@/components/ThemeToggle";
 import FleetLogo from "@/components/FleetLogo";
 import LiveQueue from "@/components/LiveQueue";
 import LoginModal from "@/components/LoginModal";
@@ -22,7 +21,6 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
-            <ThemeToggle />
             <Link
               href="/?login=1"
               className="rounded-full bg-emerald-700 text-white px-4 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold shadow-sm hover:bg-emerald-800"

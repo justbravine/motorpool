@@ -26,7 +26,7 @@ export default function LoginModal() {
       aria-modal="true"
     >
       <div className="w-full max-w-md" onClick={(event) => event.stopPropagation()}>
-        <AuthCard showClose onClose={handleClose} showThemeToggle={false} />
+        <AuthCard showClose onClose={handleClose} />
       </div>
     </div>
   );

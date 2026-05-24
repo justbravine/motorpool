@@ -10,8 +10,8 @@ import FleetAvailabilityPanel from "@/components/FleetAvailabilityPanel";
 import DriverApprovalTable from "@/components/DriverApprovalTable";
 import { createClient } from "@/lib/supabase/client";
 import { getAuthedUserId, getUserRole } from "@/lib/mockDb";
-import ThemeToggle from "@/components/ThemeToggle";
 import FleetLogo from "@/components/FleetLogo";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export default function AppHome() {
   const router = useRouter();
@@ -62,7 +62,6 @@ export default function AppHome() {
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
-            <ThemeToggle />
             {role && (
               <span className="hidden sm:inline-flex rounded-full border border-[color:var(--panel-edge)] bg-[color:var(--panel)] px-3 py-1 text-xs font-semibold text-[color:var(--muted-strong)]">
                 Role: {role}
@@ -81,6 +80,7 @@ export default function AppHome() {
 
       <main className="flex-1 p-4 sm:p-6 md:p-10">
         <div className="max-w-7xl mx-auto space-y-8">
+          <Breadcrumbs role={role} />
           {loading && (
             <div className="rounded-2xl border border-[color:var(--panel-edge)] bg-[color:var(--panel)] p-6 text-sm text-[color:var(--muted)]">
               Loading workspace...

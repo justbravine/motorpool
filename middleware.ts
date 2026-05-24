@@ -35,13 +35,13 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/app") && !user) {
+  if (pathname.startsWith("/home") && !user) {
     const redirectUrl = new URL("/login", request.url);
     return NextResponse.redirect(redirectUrl);
   }
 
   if (pathname === "/login" && user) {
-    const redirectUrl = new URL("/app", request.url);
+    const redirectUrl = new URL("/home", request.url);
     return NextResponse.redirect(redirectUrl);
   }
 
@@ -49,5 +49,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/app/:path*", "/login"],
+  matcher: ["/home/:path*", "/login"],
 };
