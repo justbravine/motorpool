@@ -12,6 +12,7 @@ export const UserSchema = z.object({
   role: RoleSchema,
   full_name: z.string().min(2, "Name must be at least 2 characters"),
   driver_license_status: LicenseStatusSchema.default("None"),
+  is_approved: z.boolean().nullable().optional(),
 });
 export type User = z.infer<typeof UserSchema>;
 

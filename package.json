@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node scripts/seed.js"
   },
   "dependencies": {
     "@hookform/resolvers": "*",
@@ -28,6 +29,7 @@
     "@types/react": "*",
     "@types/react-dom": "*",
     "autoprefixer": "*",
+    "dotenv": "^16.6.1",
     "eslint": "*",
     "eslint-config-next": "*",
     "postcss": "*",

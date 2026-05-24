@@ -7,6 +7,7 @@ import PendingRequestsTable from "@/components/PendingRequestsTable";
 import DriverDashboard from "@/components/DriverDashboard";
 import DriverStatusPanel from "@/components/DriverStatusPanel";
 import FleetAvailabilityPanel from "@/components/FleetAvailabilityPanel";
+import DriverApprovalTable from "@/components/DriverApprovalTable";
 import { createClient } from "@/lib/supabase/client";
 import { getAuthedUserId, getUserRole } from "@/lib/mockDb";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -121,6 +122,7 @@ export default function AppHome() {
 
               <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
                 <div className="space-y-6">
+                  <DriverApprovalTable />
                   <PendingRequestsTable />
                 </div>
                 <div className="space-y-6">

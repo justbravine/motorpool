@@ -21,7 +21,7 @@ export default function DriverStatusPanel() {
       try {
         const [fetchedUsers, fetchedTrips] = await Promise.all([getUsers(), getTrips()]);
         if (!isActive) return;
-        setDrivers(fetchedUsers.filter((user) => user.role === "Driver"));
+        setDrivers(fetchedUsers.filter((user) => user.role === "Driver" && user.is_approved));
         setTrips(fetchedTrips);
       } finally {
         if (isActive) setLoading(false);

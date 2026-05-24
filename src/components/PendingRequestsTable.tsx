@@ -81,7 +81,7 @@ export default function PendingRequestsTable() {
   if (error) return <div className="p-6 text-rose-500">{error}</div>;
 
   // Filter down to users who have the Driver role
-  const drivers = users.filter(u => u.role === "Driver");
+  const drivers = users.filter(u => u.role === "Driver" && u.is_approved);
 
   return (
     <div className="bg-[color:var(--panel)] rounded-2xl shadow-sm border border-[color:var(--panel-edge)] overflow-hidden">

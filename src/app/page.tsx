@@ -1,8 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
 import { Truck, Users, ShieldCheck } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import FleetLogo from "@/components/FleetLogo";
+import LiveQueue from "@/components/LiveQueue";
+import LoginModal from "@/components/LoginModal";
 
 export default function Home() {
   return (
@@ -21,7 +24,7 @@ export default function Home() {
           <div className="flex items-center gap-2 sm:gap-3">
             <ThemeToggle />
             <Link
-              href="/login"
+              href="/?login=1"
               className="rounded-full bg-emerald-700 text-white px-4 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold shadow-sm hover:bg-emerald-800"
             >
               Sign in
@@ -49,7 +52,7 @@ export default function Home() {
 
           <div className="relative z-10 max-w-7xl mx-auto px-8 sm:px-6 md:px-12 py-20 md:py-28 flex flex-col min-h-screen">
             <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center">
-              <div className="space-y-4 md:space-y-6 pt-[1cm] md:pt-[2cm]">
+              <div className="space-y-4 md:space-y-6 pt-[2cm]">
                 <h2 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-[color:var(--foreground)] tracking-tight font-display">
                   Assign vehicles fast, keep drivers moving.
                 </h2>
@@ -59,7 +62,7 @@ export default function Home() {
                 </p>
               <div className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 pt-[0.25cm] md:pt-[0.5cm]">
                   <Link
-                    href="/login"
+                    href="/?login=1"
                     className="w-full sm:w-auto text-center rounded-full bg-emerald-700 text-white px-6 py-3 text-sm font-semibold shadow-sm hover:bg-emerald-800"
                   >
                     Start dispatching
@@ -80,24 +83,7 @@ export default function Home() {
                       <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)] font-semibold">Live queue</p>
                       <span className="text-xs font-semibold text-emerald-700">Today</span>
                     </div>
-                    <div className="space-y-3">
-                      {[
-                        { name: "Driver A", status: "Returning", color: "text-amber-600" },
-                        { name: "Driver B", status: "Available", color: "text-emerald-700" },
-                        { name: "Driver C", status: "On route", color: "text-sky-600" },
-                      ].map((item) => (
-                        <div
-                          key={item.name}
-                          className="flex items-center justify-between rounded-2xl border border-[color:var(--panel-edge)] bg-[color:var(--panel-strong)] px-4 py-3"
-                        >
-                          <div>
-                            <p className="text-sm font-semibold text-[color:var(--foreground)]">{item.name}</p>
-                            <p className={`text-xs font-semibold ${item.color}`}>{item.status}</p>
-                          </div>
-                          <span className="text-xs text-[color:var(--muted)]">Next vehicle: GK-21B</span>
-                        </div>
-                      ))}
-                    </div>
+                    <LiveQueue />
                   </div>
                 </div>
               </div>
@@ -126,6 +112,9 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <Suspense fallback={null}>
+        <LoginModal />
+      </Suspense>
     </div>
   );
 }
