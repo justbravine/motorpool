@@ -56,7 +56,7 @@ export default function Home() {
                 </h2>
                 <p className="text-[color:var(--muted)] text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl">
                   Track who has a vehicle, who has completed a run, and who is next in line. A simple dispatch flow
-                  that keeps 10 cars serving 20 people without confusion.
+                  that keeps vehicles moving and drivers informed in real time.
                 </p>
               <div className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 pt-[0.25cm] md:pt-[0.5cm]">
                   <Link
@@ -107,6 +107,126 @@ export default function Home() {
                 );
               })}
             </section>
+          </div>
+        </section>
+
+        <section className="relative py-16 sm:py-20 md:py-28">
+          <div className="max-w-7xl mx-auto px-8 sm:px-6 md:px-12">
+            <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] items-center">
+              <div className="space-y-5">
+                <p className="text-xs uppercase tracking-[0.3em] text-emerald-700 font-semibold">Dispatch clarity</p>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[color:var(--foreground)] font-display">
+                  Dispatch, handoff, and return - all in one view.
+                </h3>
+                <p className="text-sm sm:text-base text-[color:var(--muted)] leading-relaxed max-w-xl">
+                  Keep vehicles moving without losing track of who has keys, who is next, and when a unit comes back.
+                  The flow is built for fast assignments and clean turnaround.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {["Live queue", "Vehicle status", "Return timing"].map((label) => (
+                    <span
+                      key={label}
+                      className="rounded-full border border-[color:var(--panel-edge)] bg-[color:var(--panel)] px-3 py-1 text-xs font-semibold text-[color:var(--muted-strong)]"
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="relative h-52 sm:h-64 rounded-2xl overflow-hidden border border-[color:var(--panel-edge)] shadow-lg transition-all duration-500 hover:bg-[color:var(--panel)]/95 hover:backdrop-blur-xl hover:shadow-[0_24px_60px_-24px_rgba(16,185,129,0.55)] hover:border-emerald-400/60">
+                  <Image
+                    src="/images/v4.png"
+                    alt="Dispatch team aligning vehicles"
+                    fill
+                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-black/10" />
+                </div>
+                <div className="relative h-52 sm:h-64 rounded-2xl overflow-hidden border border-[color:var(--panel-edge)] shadow-lg sm:translate-y-6 transition-all duration-500 hover:bg-[color:var(--panel)]/95 hover:backdrop-blur-xl hover:shadow-[0_24px_60px_-24px_rgba(16,185,129,0.55)] hover:border-emerald-400/60">
+                  <Image
+                    src="/images/v5.png"
+                    alt="Vehicles staged for the next run"
+                    fill
+                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/35 via-transparent to-black/10" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="relative py-16 sm:py-20 md:py-24 bg-[color:var(--panel)]/40">
+          <div className="max-w-7xl mx-auto px-8 sm:px-6 md:px-12">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+              <div className="space-y-3 max-w-2xl">
+                <p className="text-xs uppercase tracking-[0.3em] text-emerald-700 font-semibold">Motorpool in action</p>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[color:var(--foreground)] font-display">
+                  See the flow from request to return.
+                </h3>
+                <p className="text-sm sm:text-base text-[color:var(--muted)]">
+                  Every request is queued, every assignment is logged, and every return updates availability instantly.
+                </p>
+              </div>
+              <Link
+                href="/?login=1"
+                className="inline-flex items-center justify-center rounded-full border border-[color:var(--panel-edge)] bg-[color:var(--panel)] px-5 py-2 text-xs font-semibold text-[color:var(--foreground)] shadow-sm"
+              >
+                See it in action
+              </Link>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
+              <div className="relative h-72 sm:h-80 md:h-full rounded-3xl overflow-hidden border border-[color:var(--panel-edge)] shadow-xl transition-all duration-500 hover:bg-[color:var(--panel)]/95 hover:backdrop-blur-xl hover:shadow-[0_32px_70px_-30px_rgba(16,185,129,0.6)] hover:border-emerald-400/60">
+                <Image
+                  src="/images/1.png"
+                  alt="Command view of fleet readiness"
+                  fill
+                  sizes="(min-width: 1024px) 55vw, 90vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <p className="text-sm font-semibold text-white">Command overview</p>
+                  <p className="text-xs text-white/80">One screen for queue, assignments, and returns.</p>
+                </div>
+              </div>
+              <div className="grid gap-4">
+                {[
+                  {
+                    src: "/images/v2.png",
+                    title: "Driver handoff",
+                    copy: "Confirm who took the vehicle and when.",
+                  },
+                  {
+                    src: "/images/v3.png",
+                    title: "Queue visibility",
+                    copy: "Drivers know where they stand in line.",
+                  },
+                ].map((card) => (
+                  <div
+                    key={card.title}
+                    className="relative h-36 sm:h-44 rounded-2xl overflow-hidden border border-[color:var(--panel-edge)] shadow-lg transition-all duration-500 hover:bg-[color:var(--panel)]/95 hover:backdrop-blur-xl hover:shadow-[0_22px_50px_-22px_rgba(16,185,129,0.55)] hover:border-emerald-400/60"
+                  >
+                    <Image
+                      src={card.src}
+                      alt={card.title}
+                      fill
+                      sizes="(min-width: 1024px) 35vw, 90vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <p className="text-sm font-semibold text-white">{card.title}</p>
+                      <p className="text-xs text-white/80">{card.copy}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       </main>
