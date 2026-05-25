@@ -102,9 +102,14 @@ export async function getUsers(): Promise<User[]> {
 }
 
 export async function updateUser(id: string, updates: Partial<User>): Promise<User> {
-  const { data, error } = await supabase.from('profiles').update(updates).eq('id', id).select().single();
-  if (error) throw error;
-  return data as User;
+  const { data, error } = await supabase.from('profiles').update(updates).eq('id', id).select();
+  if (error) {
+    throw new Error(`profiles update failed: ${error.message}`);
+  }
+  if (!data || data.length === 0) {
+    throw new Error("profiles update failed: no rows updated (check permissions or profile existence)");
+  }
+  return data[0] as User;
 }
 
 export async function deleteUser(id: string): Promise<void> {
@@ -167,6 +172,26 @@ export async function approveTrip(tripId: string, vehicleId: string, driverId: s
   await supabase.from('audit_logs').insert([{
     user_id: adminId,
     action: 'APPROVED_TRIP',
+    entity: 'trips',
+    entity_id: tripId
+  }]);
+
+  return { ...trip, start_time: new Date(trip.start_time), end_time: new Date(trip.end_time) } as Trip;
+}
+
+export async function rejectTrip(tripId: string, adminId: string, reason: string | null): Promise<Trip> {
+  const { data: trip, error: tripError } = await supabase
+    .from('trips')
+    .update({ status: 'Rejected', rejection_reason: reason })
+    .eq('id', tripId)
+    .select()
+    .single();
+
+  if (tripError) throw tripError;
+
+  await supabase.from('audit_logs').insert([{
+    user_id: adminId,
+    action: 'REJECTED_TRIP',
     entity: 'trips',
     entity_id: tripId
   }]);

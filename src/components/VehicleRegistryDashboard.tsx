@@ -1,15 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { AlertTriangle, BadgeCheck, CarFront, Gauge, Wrench, Plus, Pencil, Trash2, X } from "lucide-react";
 import { Vehicle } from "@/lib/schemas";
 import { getVehicles, createVehicle, updateVehicle, deleteVehicle } from "@/lib/mockDb";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import ToastStack, { Toast } from "@/components/ToastStack";
 
 export default function VehicleRegistryDashboard() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Vehicle | null>(null);
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
@@ -18,6 +22,17 @@ export default function VehicleRegistryDashboard() {
   const [status, setStatus] = useState<"Available" | "In Transit" | "Needs Maintenance">("Available");
   const [currentMileage, setCurrentMileage] = useState<number>(0);
   const [maintenanceThreshold, setMaintenanceThreshold] = useState<number>(5000);
+
+  const pushToast = useCallback((message: string, tone: Toast["tone"] = "info") => {
+    setToasts((prev) => [
+      ...prev,
+      { id: `${Date.now()}-${Math.random().toString(16).slice(2)}`, message, tone },
+    ]);
+  }, []);
+
+  const dismissToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  }, []);
 
   useEffect(() => {
     async function fetchVehicles() {
@@ -73,19 +88,22 @@ export default function VehicleRegistryDashboard() {
       }
       setIsModalOpen(false);
       loadVehicles();
+      pushToast(editingVehicle ? "Vehicle updated." : "Vehicle added.", "success");
     } catch (err) {
-      alert("Failed to save vehicle");
+      pushToast("Failed to save vehicle.", "error");
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this vehicle?")) {
-      try {
-        await deleteVehicle(id);
-        loadVehicles();
-      } catch (err) {
-        alert("Failed to delete vehicle");
-      }
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return;
+    try {
+      await deleteVehicle(deleteTarget.id);
+      loadVehicles();
+      pushToast("Vehicle deleted.", "success");
+    } catch (err) {
+      pushToast("Failed to delete vehicle.", "error");
+    } finally {
+      setDeleteTarget(null);
     }
   };
 
@@ -93,6 +111,7 @@ export default function VehicleRegistryDashboard() {
 
   return (
     <div className="bg-[color:var(--panel)] rounded-2xl shadow-sm border border-[color:var(--panel-edge)] overflow-hidden">
+      <ToastStack toasts={toasts} onDismiss={dismissToast} />
       <div className="p-4 border-b border-[color:var(--panel-edge)] flex items-center justify-between bg-[color:var(--panel)]">
         <div>
           <h2 className="text-lg font-bold text-[color:var(--foreground)]">Vehicle Registry</h2>
@@ -163,7 +182,7 @@ export default function VehicleRegistryDashboard() {
                 <button onClick={() => openEditModal(vehicle)} className="p-2 text-[color:var(--muted)] hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors">
                   <Pencil size={16} />
                 </button>
-                <button onClick={() => handleDelete(vehicle.id)} className="p-2 text-[color:var(--muted)] hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
+                <button onClick={() => setDeleteTarget(vehicle)} className="p-2 text-[color:var(--muted)] hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                   <Trash2 size={16} />
                 </button>
               </div>
@@ -233,6 +252,14 @@ export default function VehicleRegistryDashboard() {
           </div>
         </div>
       )}
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title={deleteTarget ? `Delete ${deleteTarget.plate_number}?` : "Delete vehicle"}
+        description="This action cannot be undone."
+        confirmLabel="Delete"
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 }

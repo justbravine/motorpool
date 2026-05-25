@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Clock3, User as UserIcon } from "lucide-react";
 import { getTrips, getUsers } from "@/lib/mockDb";
 import { Trip, User } from "@/lib/schemas";
@@ -14,26 +14,70 @@ export default function DriverStatusPanel() {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const loadData = useCallback(async () => {
+    const [fetchedUsers, fetchedTrips] = await Promise.all([getUsers(), getTrips()]);
+    setDrivers(fetchedUsers.filter((user) => user.role === "Driver" && user.is_approved));
+    setTrips(fetchedTrips);
+  }, []);
+
   useEffect(() => {
     let isActive = true;
 
-    async function loadData() {
+    async function initialLoad() {
       try {
-        const [fetchedUsers, fetchedTrips] = await Promise.all([getUsers(), getTrips()]);
-        if (!isActive) return;
-        setDrivers(fetchedUsers.filter((user) => user.role === "Driver" && user.is_approved));
-        setTrips(fetchedTrips);
+        await loadData();
       } finally {
         if (isActive) setLoading(false);
       }
     }
 
-    loadData();
+    initialLoad();
+
+    const handleRefresh = () => {
+      loadData();
+    };
+
+    const handleDriverApproval = (event: Event) => {
+      const detail = (event as CustomEvent).detail as { driver?: User; isApproved?: boolean } | undefined;
+      const driver = detail?.driver;
+      if (!driver?.id) return;
+      const isApproved = Boolean(detail?.isApproved);
+
+      setDrivers((prev) => {
+        const exists = prev.some((item) => item.id === driver.id);
+        if (isApproved) {
+          if (exists) {
+            return prev.map((item) => (item.id === driver.id ? { ...item, is_approved: true } : item));
+          }
+          return [...prev, { ...driver, is_approved: true } as User];
+        }
+        return prev.filter((item) => item.id !== driver.id);
+      });
+    };
+
+    const handleTripStatus = (event: Event) => {
+      const detail = (event as CustomEvent).detail as { trip?: Trip } | undefined;
+      if (!detail?.trip) return;
+      setTrips((prev) => {
+        const index = prev.findIndex((trip) => trip.id === detail.trip?.id);
+        if (index === -1) return [...prev, detail.trip as Trip];
+        const next = [...prev];
+        next[index] = { ...next[index], ...detail.trip } as Trip;
+        return next;
+      });
+    };
+
+    window.addEventListener("admin-data-updated", handleRefresh);
+    window.addEventListener("driver-approval-updated", handleDriverApproval);
+    window.addEventListener("trip-status-updated", handleTripStatus);
 
     return () => {
       isActive = false;
+      window.removeEventListener("admin-data-updated", handleRefresh);
+      window.removeEventListener("driver-approval-updated", handleDriverApproval);
+      window.removeEventListener("trip-status-updated", handleTripStatus);
     };
-  }, []);
+  }, [loadData]);
 
   const statusByDriver = useMemo(() => {
     const map = new Map<string, DriverStatus>();

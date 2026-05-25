@@ -31,6 +31,7 @@ export default function DriverAccountSection() {
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
   const [passportPath, setPassportPath] = useState<string | null>(null);
   const [licensePath, setLicensePath] = useState<string | null>(null);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const {
     register,
@@ -163,6 +164,7 @@ export default function DriverAccountSection() {
         type: "success",
         text: "Profile saved successfully.",
       });
+      setIsCollapsed(true);
     } catch {
       setMessage({ type: "error", text: "Unable to save profile. Please try again." });
     }
@@ -174,9 +176,22 @@ export default function DriverAccountSection() {
         <div className="space-y-1">
           <p className="text-[11px] uppercase tracking-[0.28em] text-emerald-700 font-semibold">Driver profile</p>
           <h2 className="text-xl md:text-2xl font-semibold text-[color:var(--foreground)] font-display">Account Details</h2>
+          {message?.type === "success" && (
+            <p className="text-xs text-emerald-700 font-semibold">Saved just now</p>
+          )}
         </div>
-        <div className="flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1.5 text-xs font-semibold text-emerald-700">
-          <ShieldCheck size={14} /> Verified identity
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1.5 text-xs font-semibold text-emerald-700">
+            <ShieldCheck size={14} /> Verified identity
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsCollapsed(current => !current)}
+            aria-expanded={!isCollapsed}
+            className="rounded-full border border-[color:var(--panel-edge)] bg-[color:var(--panel-strong)] px-3 py-1.5 text-xs font-semibold text-[color:var(--foreground)] transition hover:border-emerald-400"
+          >
+            {isCollapsed ? "Edit profile" : "Minimize"}
+          </button>
         </div>
       </div>
 
@@ -192,12 +207,18 @@ export default function DriverAccountSection() {
         </div>
       )}
 
-      {isLoadingProfile ? (
-        <div className="rounded-2xl border border-[color:var(--panel-edge)] bg-[color:var(--panel-strong)] p-6 text-sm text-[color:var(--muted)]">
-          Loading profile data...
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <div
+        className={`transition-[max-height,opacity] duration-300 ease-out overflow-hidden ${
+          isCollapsed ? "max-h-0 opacity-0 pointer-events-none" : "max-h-[3000px] opacity-100"
+        }`}
+        aria-hidden={isCollapsed}
+      >
+        {isLoadingProfile ? (
+          <div className="rounded-2xl border border-[color:var(--panel-edge)] bg-[color:var(--panel-strong)] p-6 text-sm text-[color:var(--muted)]">
+            Loading profile data...
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <p className="text-[11px] uppercase tracking-[0.25em] text-[color:var(--muted)] font-semibold">Identity</p>
@@ -401,7 +422,19 @@ export default function DriverAccountSection() {
             </button>
           </div>
         </form>
-      )}
+        )}
+      </div>
+
+      <div
+        className={`transition-[max-height,opacity] duration-300 ease-out overflow-hidden ${
+          isCollapsed ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+        }`}
+        aria-hidden={!isCollapsed}
+      >
+        <div className="rounded-2xl border border-[color:var(--panel-edge)] bg-[color:var(--panel-strong)] px-4 py-3 text-sm text-[color:var(--muted)]">
+          Profile saved. Select "Edit profile" to make changes.
+        </div>
+      </div>
     </section>
   );
 }

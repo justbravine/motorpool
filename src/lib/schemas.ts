@@ -11,6 +11,7 @@ export const UserSchema = z.object({
   id: z.string().uuid(),
   role: RoleSchema,
   full_name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email().nullable().optional(),
   driver_license_status: LicenseStatusSchema.default("None"),
   is_approved: z.boolean().nullable().optional(),
 });
@@ -40,6 +41,7 @@ export const TripSchema = z.object({
   status: TripStatusSchema.default("Pending"),
   start_odometer: z.number().int().nonnegative().optional(),
   end_odometer: z.number().int().nonnegative().optional(),
+  rejection_reason: z.string().nullable().optional(),
 }).refine((data) => data.end_time > data.start_time, {
   message: "End time must be after start time",
   path: ["end_time"],

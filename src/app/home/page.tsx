@@ -120,14 +120,16 @@ export default function AppHome() {
                 </div>
               </div>
 
-              <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-                <div className="space-y-6">
-                  <DriverApprovalTable />
-                  <PendingRequestsTable />
-                </div>
-                <div className="space-y-6">
-                  <DriverStatusPanel />
-                  <FleetAvailabilityPanel />
+              <div className="space-y-6">
+                <PendingRequestsTable />
+                <div className="grid gap-6 lg:grid-cols-[2fr_1fr] min-w-0">
+                  <div className="space-y-6 min-w-0">
+                    <DriverApprovalTable />
+                  </div>
+                  <div className="space-y-6 min-w-0">
+                    <DriverStatusPanel />
+                    <FleetAvailabilityPanel />
+                  </div>
                 </div>
               </div>
             </section>
